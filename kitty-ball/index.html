@@ -63,7 +63,7 @@ function start(){home.style.display="none";game.style.display="block";make()}
 function make(){
 balls.innerHTML="";numbers.innerHTML="";msg.innerHTML="";
 levelText=level;document.getElementById("level").innerHTML=level;
-total=Math.min(level+1,20);
+total=Math.floor(Math.random()*6)+5;
 for(let i=0;i<total;i++){let b=document.createElement("div");b.className="ball";b.style.background=colors[Math.floor(Math.random()*colors.length)];balls.appendChild(b)}
 for(let i=1;i<=10;i++){let b=document.createElement("button");b.className="num";b.innerHTML=i;b.onclick=()=>check(i);numbers.appendChild(b)}
 }
