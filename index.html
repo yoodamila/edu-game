@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Edu Game Anak</title>
+<title>EDU GAME</title>
 
 <style>
 
@@ -14,95 +14,134 @@
 
 body{
     margin:0;
-    font-family:'Comic Sans MS', Arial, sans-serif;
-    background:linear-gradient(135deg,#B4C8FF,#ED42DE);
     min-height:100vh;
-    padding:30px;
+    font-family:"Arial Rounded MT Bold", Arial, sans-serif;
+    background:
+    linear-gradient(90deg,
+    #F04B23 0%,
+    #F04B23 8%,
+    #8A6DE9 8%,
+    #8A6DE9 12%,
+    #FFF8F2 12%,
+    #FFF8F2 88%,
+    #F48BCB 88%,
+    #F48BCB 92%,
+    #D9F58A 92%);
 }
+
 
 .container{
     max-width:1100px;
     margin:auto;
-    background:white;
-    border-radius:30px;
-    padding:40px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    background:#FFF8F2;
+    min-height:100vh;
+    padding:35px 30px;
 }
+
 
 h1{
     text-align:center;
-    font-size:40px;
-    color:#F9692A;
-    margin-bottom:10px;
+    margin:0;
+    font-size:70px;
+    font-weight:900;
+    letter-spacing:3px;
+    color:#F04B23;
+    text-shadow:3px 3px #FFD95A;
 }
+
+
+h1 span{
+    color:#7965E8;
+}
+
 
 .subtitle{
     text-align:center;
-    color:#555;
-    margin-bottom:35px;
-    font-size:18px;
+    font-size:20px;
+    font-weight:bold;
+    color:#777;
+    margin:10px 0 40px;
 }
 
 
 .games{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(5,1fr);
+    gap:18px;
 }
 
 
 .card{
 
-    text-decoration:none;
-    color:white;
-    background:#C6E201;
+    height:180px;
+    border:4px solid #222;
     border-radius:25px;
-    padding:25px 15px;
-    text-align:center;
-    transition:.3s;
-    min-height:130px;
 
     display:flex;
     flex-direction:column;
     justify-content:center;
+    align-items:center;
+
+    text-align:center;
+    text-decoration:none;
+    color:#222;
+
+    padding:15px;
+    transition:.25s;
+
 }
 
 
 .card:hover{
-    transform:translateY(-8px) scale(1.03);
-    box-shadow:0 8px 20px rgba(0,0,0,.2);
+    transform:translateY(-8px);
+    box-shadow:0 10px 20px rgba(0,0,0,.2);
 }
 
 
 .icon{
-    font-size:45px;
+    font-size:55px;
+    margin-bottom:15px;
 }
 
 
 .title{
-    margin-top:12px;
-    font-size:18px;
-    font-weight:bold;
+    font-size:16px;
+    font-weight:900;
 }
 
 
-.number{
-    background:white;
-    color:#F9692A;
-    border-radius:50%;
-    width:35px;
-    height:35px;
-    line-height:35px;
-    margin:auto;
-    margin-bottom:10px;
-    font-weight:bold;
+.orange{
+    background:#F04B23;
+}
+
+.pink{
+    background:#F5A5D2;
+}
+
+.purple{
+    background:#A99BEF;
+}
+
+.green{
+    background:#D9F58A;
+}
+
+.peach{
+    background:#F49372;
 }
 
 
-footer{
-    text-align:center;
-    margin-top:35px;
-    color:#777;
+
+@media(max-width:900px){
+
+.games{
+    grid-template-columns:repeat(2,1fr);
+}
+
+h1{
+    font-size:45px;
+}
+
 }
 
 
@@ -116,127 +155,142 @@ footer{
 
 <div class="container">
 
-<h1>🎮 Edu Game Anak</h1>
+
+<h1>
+<span>EDU</span> GAME
+</h1>
+
 
 <div class="subtitle">
-Kumpulan permainan edukasi untuk belajar sambil bermain ✨
+Pilih permainan yang ingin kamu mainkan!
 </div>
+
 
 
 <div class="games">
 
 
-<a class="card" href="coding-matematika-benda/">
-<div class="number">1</div>
+<a class="card orange" href="coding-matematika-benda/">
 <div class="icon">🔢</div>
-<div class="title">Coding Matematika Benda</div>
+<div class="title">
+Coding<br>Matematika Benda
+</div>
 </a>
 
 
-<a class="card" href="coding-matematika-buah/">
-<div class="number">2</div>
+<a class="card pink" href="coding-matematika-buah/">
 <div class="icon">🍎</div>
-<div class="title">Coding Matematika Buah</div>
+<div class="title">
+Coding<br>Matematika Buah
+</div>
 </a>
 
 
-<a class="card" href="coding-matematika-hewan/">
-<div class="number">3</div>
-<div class="icon">🐱</div>
-<div class="title">Coding Matematika Hewan</div>
-</a>
-
-
-<a class="card" href="hitung-jari-tangan/">
-<div class="number">4</div>
-<div class="icon">🖐️</div>
-<div class="title">Hitung Jari Tangan</div>
-</a>
-
-
-<a class="card" href="kitty-ball/">
-<div class="number">5</div>
-<div class="icon">🐱⚽</div>
-<div class="title">Kitty Ball</div>
-</a>
-
-
-<a class="card" href="kitty-ufo/">
-<div class="number">6</div>
-<div class="icon">🐱🚀</div>
-<div class="title">Kitty UFO</div>
-</a>
-
-
-<a class="card" href="letters-match/">
-<div class="number">7</div>
-<div class="icon">🔤</div>
-<div class="title">Letters Match</div>
-</a>
-
-
-<a class="card" href="master-hewan/">
-<div class="number">8</div>
+<a class="card purple" href="coding-matematika-hewan/">
 <div class="icon">🦁</div>
-<div class="title">Master Hewan</div>
+<div class="title">
+Coding<br>Matematika Hewan
+</div>
 </a>
 
 
-<a class="card" href="maze-kelinci/">
-<div class="number">9</div>
+<a class="card green" href="hitung-jari-tangan/">
+<div class="icon">🖐️</div>
+<div class="title">
+Hitung<br>Jari Tangan
+</div>
+</a>
+
+
+<a class="card peach" href="kitty-ball/">
+<div class="icon">🐱⚽</div>
+<div class="title">
+Kitty Ball
+</div>
+</a>
+
+
+<a class="card pink" href="kitty-ufo/">
+<div class="icon">🐱🚀</div>
+<div class="title">
+Kitty UFO
+</div>
+</a>
+
+
+<a class="card green" href="letters-match/">
+<div class="icon">🔤</div>
+<div class="title">
+Letters Match
+</div>
+</a>
+
+
+<a class="card purple" href="master-hewan/">
+<div class="icon">🐮</div>
+<div class="title">
+Master Hewan
+</div>
+</a>
+
+
+<a class="card peach" href="maze-kelinci/">
 <div class="icon">🐰</div>
-<div class="title">Maze Kelinci</div>
+<div class="title">
+Maze Kelinci
+</div>
 </a>
 
 
-<a class="card" href="perbandingan/">
-<div class="number">10</div>
+<a class="card pink" href="perbandingan/">
 <div class="icon">⚖️</div>
-<div class="title">Perbandingan</div>
+<div class="title">
+Perbandingan
+</div>
 </a>
 
 
-<a class="card" href="shadow-match-number/">
-<div class="number">11</div>
+<a class="card purple" href="shadow-match-number/">
 <div class="icon">🔢</div>
-<div class="title">Shadow Match Number</div>
+<div class="title">
+Shadow Match<br>Number
+</div>
 </a>
 
 
-<a class="card" href="shadow-match-animal/">
-<div class="number">12</div>
+<a class="card peach" href="shadow-match-animal/">
 <div class="icon">🐾</div>
-<div class="title">Shadow Match Animal</div>
+<div class="title">
+Shadow Match<br>Animal
+</div>
 </a>
 
 
-<a class="card" href="sliding-puzzle/">
-<div class="number">13</div>
+<a class="card pink" href="sliding-puzzle/">
 <div class="icon">🧩</div>
-<div class="title">Sliding Puzzle</div>
+<div class="title">
+Sliding Puzzle
+</div>
 </a>
 
 
-<a class="card" href="space-quest/">
-<div class="number">14</div>
-<div class="icon">🌌</div>
-<div class="title">Space Quest</div>
+<a class="card green" href="space-quest/">
+<div class="icon">🚀</div>
+<div class="title">
+Space Quest
+</div>
 </a>
 
 
-<a class="card" href="tebak-kereta/">
-<div class="number">15</div>
+<a class="card purple" href="tebak-kereta/">
 <div class="icon">🚂</div>
-<div class="title">Tebak Kereta</div>
+<div class="title">
+Tebak Kereta
+</div>
 </a>
 
 
 </div>
-
-
-<footer>
-© Edu Game Anak • Belajar Menjadi Menyenangkan
-</footer>
 
 
 </div>
