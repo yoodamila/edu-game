@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Petualangan Hewan</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sauce+One:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --cream: #FFFDF1;
+  --blue: #67A6CF;
+  --yellow: #DCB103;
+  --pink: #ED80E5;
+  --green: #1D9F55;
+  --dark: #323232;
+  --white: #FFFFFF;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Open Sauce One", sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  overflow-x: hidden;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.screen {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* =========================
+   HOME
+========================= */
+
+#home {
+  background: var(--cream);
+  padding: 30px;
+  min-height: 100vh;
+}
+
+.home-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.home-title {
+  font-size: clamp(55px, 10vw, 125px);
+  line-height: .82;
+  letter-spacing: -6px;
+  font-weight: 900;
+  max-width: 900px;
+  margin-bottom: 25px;
+}
+
+.home-title span {
+  display: block;
+}
+
+.home-title .accent {
+  color: var(--green);
+}
+
+.home-description {
+  max-width: 650px;
+  font-size: 19px;
+  line-height: 1.5;
+  margin-bottom: 35px;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  max-width: 1100px;
+}
+
+.category-card {
+  min-height: 210px;
+  border: 3px solid var(--dark);
+  border-radius: 28px;
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+  transition: .2s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+}
+
+.category-card h2 {
+  position: absolute;
+  bottom: 20px;
+  left: 22px;
+  font-size: clamp(25px, 4vw, 42px);
+  line-height: .9;
+  font-weight: 900;
+  letter-spacing: -2px;
+  z-index: 2;
+}
+
+.category-card .animal {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: clamp(90px, 13vw, 150px);
+  transform: rotate(5deg);
+}
+
+.blue-card {
+  background: var(--blue);
+}
+
+.yellow-card {
+  background: var(--yellow);
+}
+
+.pink-card {
+  background: var(--pink);
+}
+
+.green-card {
+  background: var(--green);
+}
+
+/* =========================
+   LEVEL SCREEN
+========================= */
+
+#levelScreen {
+  display: none;
+  background: var(--cream);
+  padding: 25px;
+  min-height: 100vh;
+}
+
+.level-container {
+  max-width: 1050px;
+  margin: auto;
+  min-height: calc(100vh - 50px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.back-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--dark);
+  border-radius: 50%;
+  background: var(--pink);
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.level-heading {
+  text-align: center;
+  font-size: clamp(50px, 9vw, 95px);
+  line-height: .85;
+  letter-spacing: -5px;
+  font-weight: 900;
+  margin-bottom: 15px;
+}
+
+.level-subheading {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 18px;
+}
+
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  width: 100%;
+}
+
+.level-button {
+  aspect-ratio: 1;
+  border: 3px solid var(--dark);
+  border-radius: 25px;
+  font-size: 30px;
+  font-weight: 900;
+  transition: .2s ease;
+}
+
+.level-button:hover {
+  transform: translateY(-5px) rotate(-2deg);
+}
+
+.level-button:nth-child(1),
+.level-button:nth-child(6) {
+  background: var(--yellow);
+}
+
+.level-button:nth-child(2),
+.level-button:nth-child(7) {
+  background: var(--pink);
+}
+
+.level-button:nth-child(3),
+.level-button:nth-child(8) {
+  background: var(--blue);
+}
+
+.level-button:nth-child(4),
+.level-button:nth-child(9) {
+  background: var(--green);
+}
+
+.level-button:nth-child(5),
+.level-button:nth-child(10) {
+  background: var(--yellow);
+}
+
+/* =========================
+   GAME
+========================= */
+
+#game {
+  display: none;
+  background: var(--green);
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.game-layout {
+  min-height: calc(100vh - 40px);
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 18px;
+}
+
+.question-panel {
+  background: var(--cream);
+  border: 3px solid var(--dark);
+  border-radius: 30px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.game-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.home-small {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--pink);
+  border: 3px solid var(--dark);
+  font-size: 21px;
+}
+
+.progress {
+  background: var(--cream);
+  border: 2.5px solid var(--dark);
+  border-radius: 50px;
+  padding: 8px 16px;
+  font-weight: 800;
+}
+
+.level-label {
+  font-size: 15px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  opacity: .55;
+}
+
+.question {
+  font-size: clamp(35px, 5vw, 67px);
+  line-height: .96;
+  letter-spacing: -4px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.question-help {
+  font-size: 17px;
+  opacity: .6;
+  margin-bottom: 28px;
+}
+
+.options {
+  display: grid;
+  gap: 11px;
+}
+
+.option {
+  background: var(--white);
+  border: 2.5px solid var(--dark);
+  border-radius: 18px;
+  padding: 16px 18px;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 700;
+  transition: .18s ease;
+}
+
+.option:hover {
+  transform: translateY(-3px);
+  background: #f8f4df;
+}
+
+.option-letter {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background: var(--yellow);
+  border: 2px solid var(--dark);
+  margin-right: 10px;
+  font-weight: 900;
+}
+
+.bottom-bar {
+  margin-top: auto;
+  padding-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hint-button {
+  border: 2.5px solid var(--dark);
+  background: var(--yellow);
+  border-radius: 50px;
+  padding: 11px 20px;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.score {
+  font-size: 17px;
+  font-weight: 900;
+}
+
+/* =========================
+   ANIMAL PANEL
+========================= */
+
+.animal-panel {
+  border: 3px solid var(--dark);
+  border-radius: 30px;
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.animal-panel.blue {
+  background: var(--blue);
+}
+
+.animal-panel.pink {
+  background: var(--pink);
+}
+
+.animal-panel.yellow {
+  background: var(--yellow);
+}
+
+.animal-panel.green {
+  background: var(--green);
+}
+
+.animal-display {
+  font-size: clamp(150px, 25vw, 310px);
+  line-height: 1;
+  animation: floating 3s ease-in-out infinite;
+  filter: drop-shadow(5px 7px 0 rgba(50,50,50,.18));
+}
+
+@keyframes floating {
+  0%,100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(2deg);
+  }
+}
+
+/* =========================
+   MODALS
+========================= */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(50,50,50,.55);
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-box {
+  width: min(450px, 100%);
+  background: var(--cream);
+  border: 3px solid var(--dark);
+  border-radius: 28px;
+  padding: 30px;
+  text-align: center;
+  animation: pop .25s ease;
+}
+
+.modal-emoji {
+  font-size: 65px;
+  margin-bottom: 10px;
+}
+
+.modal h2 {
+  font-size: 45px;
+  line-height: .9;
+  letter-spacing: -2px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.modal p {
+  font-size: 17px;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.modal-button {
+  border: 3px solid var(--dark);
+  border-radius: 50px;
+  padding: 13px 28px;
+  font-size: 17px;
+  font-weight: 900;
+  background: var(--green);
+}
+
+@keyframes pop {
+  from {
+    transform: scale(.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* =========================
+   COMPLETE
+========================= */
+
+#complete {
+  display: none;
+  background: var(--pink);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.complete-layout {
+  min-height: calc(100vh - 40px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.complete-left {
+  background: var(--cream);
+  border: 3px solid var(--dark);
+  border-radius: 30px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.complete-title {
+  font-size: clamp(55px, 8vw, 100px);
+  line-height: .82;
+  letter-spacing: -5px;
+  font-weight: 900;
+  margin-bottom: 25px;
+}
+
+.complete-message {
+  font-size: 20px;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  border: 2.5px solid var(--dark);
+  border-radius: 20px;
+  padding: 15px 20px;
+  background: var(--yellow);
+}
+
+.stat strong {
+  display: block;
+  font-size: 27px;
+  font-weight: 900;
+}
+
+.stat span {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.complete-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.complete-button {
+  border: 3px solid var(--dark);
+  border-radius: 50px;
+  padding: 14px 23px;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.play-again {
+  background: var(--yellow);
+}
+
+.next-level {
+  background: var(--blue);
+}
+
+.complete-right {
+  background: var(--green);
+  border: 3px solid var(--dark);
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.complete-animal {
+  font-size: clamp(170px, 27vw, 330px);
+  animation: floating 3s ease-in-out infinite;
+}
+
+.confetti {
+  position: absolute;
+  font-size: 35px;
+  animation: confettiFall 3s linear infinite;
+}
+
+.confetti:nth-child(1) {
+  top: 10%;
+  left: 15%;
+}
+
+.confetti:nth-child(2) {
+  top: 20%;
+  right: 15%;
+  animation-delay: .5s;
+}
+
+.confetti:nth-child(3) {
+  bottom: 20%;
+  left: 20%;
+  animation-delay: 1s;
+}
+
+.confetti:nth-child(4) {
+  bottom: 15%;
+  right: 20%;
+  animation-delay: 1.5s;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-20px) rotate(0);
+  }
+  100% {
+    transform: translateY(30px) rotate(180deg);
+  }
+}
+
+/* =========================
+   HINT MODAL
+========================= */
+
+#hintModal .modal-button {
+  background: var(--yellow);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+  #home {
+    padding: 20px;
+  }
+
+  .home-title {
+    font-size: 60px;
+    letter-spacing: -4px;
+  }
+
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-card {
+    min-height: 160px;
+  }
+
+  .level-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .level-container {
+    min-height: auto;
+    padding-top: 70px;
+  }
+
+  .game-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .question-panel {
+    min-height: 65vh;
+  }
+
+  .animal-panel {
+    min-height: 280px;
+  }
+
+  .complete-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .complete-left {
+    min-height: 55vh;
+  }
+
+  .complete-right {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .question-panel {
+    padding: 20px;
+  }
+
+  .question {
+    font-size: 39px;
+  }
+
+  .option {
+    font-size: 16px;
+    padding: 13px;
+  }
+
+  .animal-display {
+    font-size: 150px;
+  }
+
+  .complete-left {
+    padding: 25px;
+  }
+
+  .complete-title {
+    font-size: 60px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section id="home" class="screen">
+
+  <div class="home-top">
+    <div class="logo">🐾 PETUALANGAN HEWAN</div>
+    <div class="logo">GAME EDUKASI</div>
+  </div>
+
+  <h1 class="home-title">
+    Belajar Hewan
+    <span class="accent">Itu Seru!</span>
+  </h1>
+
+  <p class="home-description">
+    Yuk kenali berbagai hewan menarik, jawab pertanyaan seru,
+    dan jadilah <strong>Master Hewan!</strong>
+  </p>
+
+  <div class="category-grid">
+
+    <div class="category-card blue-card" onclick="openLevels('general')">
+      <div class="animal">🦁</div>
+      <h2>KENALI<br>HEWAN</h2>
+    </div>
+
+    <div class="category-card yellow-card" onclick="openLevels('sea')">
+      <div class="animal">🐠</div>
+      <h2>HEWAN<br>LAUT</h2>
+    </div>
+
+    <div class="category-card pink-card" onclick="openLevels('insects')">
+      <div class="animal">🦋</div>
+      <h2>SERANGGA<br>UNIK</h2>
+    </div>
+
+    <div class="category-card green-card" onclick="openLevels('ancient')">
+      <div class="animal">🦖</div>
+      <h2>HEWAN<br>PURBA</h2>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     LEVEL SCREEN
+========================= -->
+
+<section id="levelScreen" class="screen">
+
+  <div class="level-container">
+
+    <button class="back-button" onclick="goHome()">←</button>
+
+    <h1 class="level-heading">
+      Pilih<br>Level!
+    </h1>
+
+    <p class="level-subheading">
+      Selesaikan setiap level untuk menjadi Master Hewan 🏆
+    </p>
+
+    <div class="level-grid">
+
+      <button class="level-button" onclick="startGame(1)">01</button>
+      <button class="level-button" onclick="startGame(2)">02</button>
+      <button class="level-button" onclick="startGame(3)">03</button>
+      <button class="level-button" onclick="startGame(4)">04</button>
+      <button class="level-button" onclick="startGame(5)">05</button>
+
+      <button class="level-button" onclick="startGame(6)">06</button>
+      <button class="level-button" onclick="startGame(7)">07</button>
+      <button class="level-button" onclick="startGame(8)">08</button>
+      <button class="level-button" onclick="startGame(9)">09</button>
+      <button class="level-button" onclick="startGame(10)">10</button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     GAME SCREEN
+========================= -->
+
+<section id="game" class="screen">
+
+  <div class="game-layout">
+
+    <div class="question-panel">
+
+      <div class="game-top">
+
+        <button class="home-small" onclick="goLevels()">⌂</button>
+
+        <div class="progress" id="progress">
+          1 / 5
+        </div>
+
+      </div>
+
+      <div class="level-label" id="levelLabel">
+        LEVEL 1
+      </div>
+
+      <h2 class="question" id="question">
+        Pertanyaan
+      </h2>
+
+      <div class="options" id="options"></div>
+
+      <div class="bottom-bar">
+
+        <div class="score">
+          ⭐ <span id="score">0</span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="animal-panel blue" id="animalPanel">
+
+      <div class="animal-display" id="animalDisplay">
+        🦁
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     COMPLETE
+========================= -->
+
+<section id="complete" class="screen">
+
+  <div class="complete-layout">
+
+    <div class="complete-left">
+
+      <h1 class="complete-title" id="completeTitle">
+        Luar<br>Biasa! 🎉
+      </h1>
+
+      <p class="complete-message" id="completeMessage">
+        Kamu berhasil menyelesaikan level ini!
+        Terus belajar dan kenali lebih banyak hewan.
+      </p>
+
+      <div class="stats">
+
+        <div class="stat">
+          <strong id="finalScore">50</strong>
+          <span>POIN</span>
+        </div>
+
+        <div class="stat">
+          <strong id="finalCorrect">5/5</strong>
+          <span>BENAR</span>
+        </div>
+
+      </div>
+
+      <div class="complete-buttons">
+
+        <button
+          class="complete-button play-again"
+          onclick="replayLevel()">
+          ↻ Main Lagi
+        </button>
+
+        <button
+          class="complete-button next-level"
+          id="nextLevelButton"
+          onclick="nextLevel()">
+          Level Berikutnya →
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="complete-right">
+
+      <div class="confetti">⭐</div>
+      <div class="confetti">🎉</div>
+      <div class="confetti">✨</div>
+      <div class="confetti">🐾</div>
+
+      <div class="complete-animal" id="completeAnimal">
+        🦁
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     CORRECT MODAL
+========================= -->
+
+<div class="modal" id="correctModal">
+
+  <div class="modal-box">
+
+    <div class="modal-emoji">
+      🎉
+    </div>
+
+    <h2>Hebat!</h2>
+
+    <p>
+      Jawabanmu benar! Kamu mendapatkan
+      <strong>10 poin.</strong>
+    </p>
+
+    <button
+      class="modal-button"
+      onclick="continueQuestion()">
+      Lanjut →
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     WRONG MODAL
+========================= -->
+
+<div class="modal" id="wrongModal">
+
+  <div class="modal-box">
+
+    <div class="modal-emoji">
+      🤔
+    </div>
+
+    <h2>Belum Tepat!</h2>
+
+    <p>
+      Tidak apa-apa! Coba pikirkan lagi
+      lalu pilih jawaban yang paling tepat.
+    </p>
+
+    <button
+      class="modal-button"
+      onclick="closeWrong()">
+      Coba Lagi
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     HINT MODAL
+========================= -->
+
+<div class="modal" id="hintModal">
+
+  <div class="modal-box">
+
+    <div class="modal-emoji">
+      💡
+    </div>
+
+    <h2>Petunjuk</h2>
+
+    <p id="hintText">
+      Petunjuk akan muncul di sini.
+    </p>
+
+    <button
+      class="modal-button"
+      onclick="closeHint()">
+      Mengerti!
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   DATA GAME
+   4 KATEGORI × 10 LEVEL × 5 SOAL = 200 SOAL
+===================================================== */
+
+/*
+  Setiap kategori punya kumpulan soal sendiri:
+  - general  : campuran/random
+  - sea      : khusus hewan laut
+  - insects  : khusus serangga
+  - ancient  : khusus hewan purba/prasejarah
+*/
+
+const categoryPools = {
+
+  general: [
+    ["Singa","🦁","memiliki surai dan auman yang kuat","sering disebut raja hutan"],
+    ["Gajah","🐘","memiliki belalai yang panjang","merupakan salah satu hewan darat terbesar"],
+    ["Jerapah","🦒","memiliki leher yang sangat panjang","memiliki pola tubuh yang khas"],
+    ["Zebra","🦓","memiliki belang hitam dan putih","merupakan kerabat dekat kuda"],
+    ["Harimau","🐯","memiliki loreng pada tubuhnya","merupakan kucing besar yang hidup menyendiri"],
+    ["Beruang","🐻","memiliki tubuh besar dan cakar kuat","beberapa jenisnya dapat tidur panjang saat musim dingin"],
+    ["Panda","🐼","sangat menyukai bambu","memiliki bulu hitam dan putih"],
+    ["Kuda","🐴","dapat tidur sambil berdiri","sering digunakan untuk ditunggangi"],
+    ["Kelinci","🐰","memiliki telinga panjang","dikenal dapat melompat dengan cepat"],
+    ["Rusa","🦌","jantan dapat memiliki tanduk bercabang","sering hidup dalam kelompok"],
+    ["Kanguru","🦘","membawa anaknya di dalam kantong","merupakan hewan khas Australia"],
+    ["Koala","🐨","banyak memakan daun eukaliptus","menghabiskan banyak waktu di atas pohon"],
+    ["Monyet","🐒","memiliki tangan dan kaki yang kuat untuk memanjat","banyak jenisnya hidup di pepohonan"],
+    ["Gorila","🦍","memiliki tubuh sangat kuat","merupakan primata besar dari Afrika"],
+    ["Simpanse","🐵","merupakan kerabat dekat manusia","dikenal cerdas dan dapat menggunakan alat sederhana"],
+    ["Serigala","🐺","sering hidup dan berburu dalam kelompok","memiliki pendengaran dan penciuman yang tajam"],
+    ["Rubah","🦊","memiliki ekor berbulu lebat","dikenal lincah dan cerdik"],
+    ["Kucing","🐱","mengeluarkan suara meong","memiliki cakar yang dapat ditarik"],
+    ["Anjing","🐶","memiliki penciuman yang sangat baik","sering menjadi hewan pendamping manusia"],
+    ["Sapi","🐮","memakan rumput dan menghasilkan susu","merupakan hewan ternak yang umum"],
+    ["Kambing","🐐","dapat memanjat permukaan yang cukup terjal","memiliki kuku yang terbelah"],
+    ["Domba","🐑","memiliki bulu tebal yang dapat dicukur","sering dipelihara sebagai hewan ternak"],
+    ["Babi","🐷","memiliki moncong yang khas","termasuk mamalia omnivor"],
+    ["Ayam","🐔","menghasilkan telur","jantan biasanya disebut ayam jago"],
+    ["Bebek","🦆","memiliki kaki berselaput","dapat berenang dengan baik"],
+    ["Burung Hantu","🦉","aktif terutama pada malam hari","memiliki penglihatan dan pendengaran yang baik"],
+    ["Elang","🦅","memiliki cakar dan paruh yang tajam","merupakan burung pemangsa"],
+    ["Merak","🦚","jantan dapat mengembangkan bulu ekor yang indah","bulu ekornya memiliki pola seperti mata"],
+    ["Penguin","🐧","tidak dapat terbang tetapi pandai berenang","hidup di belahan Bumi Selatan"],
+    ["Unta","🐪","memiliki punuk","sangat cocok hidup di lingkungan gurun"],
+    ["Badak","🦏","memiliki cula pada bagian hidung","memiliki kulit yang tebal"],
+    ["Kuda Nil","🦛","banyak menghabiskan waktu di air","memiliki tubuh besar dan mulut lebar"],
+    ["Buaya","🐊","memiliki rahang yang sangat kuat","sering hidup di sungai dan rawa"],
+    ["Komodo","🦎","merupakan kadal besar","merupakan hewan asli Indonesia"],
+    ["Bunglon","🦎","dapat mengubah warna tubuh dalam kondisi tertentu","memiliki mata yang dapat bergerak secara independen"],
+    ["Katak","🐸","mengalami metamorfosis","dewasa umumnya hidup dekat air"],
+    ["Ular","🐍","tidak memiliki kaki","bergerak dengan melata"],
+    ["Kura-kura","🐢","memiliki tempurung sebagai pelindung","bergerak relatif lambat"],
+    ["Iguana","🦎","merupakan kadal pemakan tumbuhan pada banyak spesies","memiliki ekor panjang"],
+    ["Cheetah","🐆","dikenal sebagai hewan darat yang sangat cepat","memiliki tubuh ramping untuk berlari"],
+    ["Hyena","🐕","memiliki rahang yang kuat","sering hidup dalam kelompok sosial"],
+    ["Meerkat","🦦","sering berdiri tegak untuk mengawasi lingkungan","hidup berkelompok di Afrika bagian selatan"],
+    ["Sloth","🦥","bergerak sangat lambat","banyak menghabiskan waktu bergelantungan di pohon"],
+    ["Armadillo","🦔","memiliki pelindung keras seperti baju zirah","beberapa jenis dapat menggulung tubuh"],
+    ["Landak","🦔","memiliki duri sebagai perlindungan","merupakan mamalia"],
+    ["Kelelawar","🦇","merupakan mamalia yang dapat terbang","banyak jenisnya aktif pada malam hari"],
+    ["Berang-berang","🦦","pandai berenang","memiliki tubuh yang cocok untuk kehidupan di air"],
+    ["Rakun","🦝","memiliki pola seperti topeng di wajah","memiliki tangan depan yang cekatan"],
+    ["Flamingo","🦩","memiliki kaki panjang dan warna merah muda","sering berdiri dengan satu kaki"],
+    ["Pelikan","🦤","memiliki kantong besar pada paruhnya","menggunakannya untuk membantu menangkap ikan"]
+  ],
+
+  sea: [
+    ["Paus Biru","🐋","merupakan hewan terbesar yang diketahui hidup di Bumi","merupakan mamalia laut"],
+    ["Orca","🐋","memiliki warna hitam dan putih yang khas","merupakan anggota keluarga lumba-lumba"],
+    ["Lumba-lumba","🐬","dikenal cerdas dan sering melompat dari air","merupakan mamalia laut"],
+    ["Hiu Putih","🦈","merupakan predator laut dengan banyak gigi tajam","memiliki tubuh berbentuk torpedo"],
+    ["Hiu Martil","🦈","memiliki kepala berbentuk seperti palu","merupakan jenis hiu"],
+    ["Hiu Paus","🦈","merupakan ikan terbesar yang masih hidup","makanan utamanya banyak berupa plankton"],
+    ["Gurita","🐙","memiliki delapan lengan","merupakan hewan lunak tanpa tulang belakang"],
+    ["Cumi-cumi","🦑","memiliki tubuh memanjang dan tentakel","dapat menyemprotkan tinta untuk membantu melarikan diri"],
+    ["Ubur-ubur","🪼","memiliki tubuh seperti payung dan tentakel","beberapa jenis dapat menyengat"],
+    ["Penyu Laut","🐢","memiliki tempurung dan hidup di laut","betina dapat kembali ke pantai untuk bertelur"],
+    ["Kuda Laut","🐴","jantan membawa telur di kantong khusus","berenang dengan posisi tubuh tegak"],
+    ["Ikan Badut","🐠","sering hidup dekat anemon laut","memiliki warna oranye dengan garis putih"],
+    ["Ikan Buntal","🐡","dapat menggembungkan tubuh ketika terancam","memiliki bentuk tubuh yang khas"],
+    ["Ikan Pari Manta","🐟","memiliki tubuh pipih dan sirip dada yang sangat lebar","memakan banyak plankton"],
+    ["Ikan Pari","🐟","memiliki tubuh pipih seperti cakram","berkerabat dekat dengan hiu"],
+    ["Belut Moray","🐟","memiliki tubuh panjang seperti ular","sering bersembunyi di celah karang"],
+    ["Barakuda","🐟","memiliki tubuh panjang dan gigi tajam","merupakan predator laut yang cepat"],
+    ["Ikan Pedang","🐟","memiliki moncong panjang seperti pedang","merupakan ikan laut yang dapat berenang cepat"],
+    ["Ikan Pemancing","🐟","memiliki bagian tubuh yang dapat berfungsi seperti umpan","hidup di laut dalam pada beberapa kelompok"],
+    ["Bintang Laut","⭐","biasanya memiliki lima lengan","bergerak menggunakan kaki tabung"],
+    ["Bulu Babi","🦔","memiliki tubuh bulat dengan duri","merupakan hewan yang hidup di dasar laut"],
+    ["Kepiting","🦀","memiliki dua capit pada banyak jenis","berjalan menyamping"],
+    ["Lobster","🦞","memiliki capit besar pada beberapa jenis","hidup di dasar laut dan perairan pesisir"],
+    ["Udang","🦐","memiliki tubuh kecil beruas dan banyak kaki","merupakan hewan krustasea"],
+    ["Walrus","🦭","memiliki gading panjang dan kumis tebal","merupakan mamalia laut dari wilayah Arktik"]
+  ],
+
+  insects: [
+    ["Kupu-kupu","🦋","memiliki sayap bersisik","mengalami metamorfosis sempurna"],
+    ["Lebah Madu","🐝","menghasilkan madu","hidup dalam koloni"],
+    ["Semut","🐜","hidup dalam koloni dengan pembagian tugas","memiliki tubuh beruas"],
+    ["Capung","🪰","memiliki dua pasang sayap dan terbang lincah","sering ditemukan dekat perairan"],
+    ["Belalang","🦗","memiliki kaki belakang yang kuat untuk melompat","termasuk serangga pemakan tumbuhan pada banyak spesies"],
+    ["Jangkrik","🦗","jantan dapat menghasilkan suara dengan menggesekkan sayap","aktif terutama pada malam hari"],
+    ["Kumbang Badak","🪲","jantan memiliki tanduk seperti badak pada beberapa spesies","termasuk kelompok kumbang"],
+    ["Kumbang Rusa","🪲","jantan memiliki rahang besar seperti tanduk","termasuk famili Lucanidae"],
+    ["Kumbang Koksi","🐞","sering memiliki tubuh merah dengan bintik hitam","dikenal juga sebagai kepik"],
+    ["Belalang Sembah","🦗","memiliki kaki depan yang cocok untuk menangkap mangsa","sering menunggu mangsa dengan posisi seperti berdoa"],
+    ["Nyamuk","🦟","memiliki tubuh kecil dan sepasang sayap","betina dari beberapa spesies mengisap darah"],
+    ["Lalat Rumah","🪰","memiliki sepasang sayap","sering ditemukan di sekitar lingkungan manusia"],
+    ["Rayap","🐜","hidup dalam koloni dan dapat memakan bahan berkayu","memiliki kasta dalam koloninya"],
+    ["Kunang-kunang","🐞","dapat menghasilkan cahaya dari tubuhnya","cahaya digunakan untuk komunikasi pada banyak spesies"],
+    ["Tonggeret","🦗","dikenal karena suara nyaringnya","menghabiskan sebagian hidupnya sebagai nimfa"],
+    ["Serangga Daun","🦗","memiliki bentuk tubuh yang menyerupai daun","menggunakan kamuflase untuk menghindari pemangsa"],
+    ["Serangga Ranting","🦗","memiliki bentuk tubuh seperti ranting","mengandalkan kamuflase"],
+    ["Ngengat Atlas","🦋","merupakan salah satu ngengat berukuran sangat besar","termasuk kelompok Lepidoptera"],
+    ["Kupu-kupu Swallowtail","🦋","banyak spesies memiliki ujung sayap seperti ekor","termasuk kelompok kupu-kupu"],
+    ["Ulat Sutra","🐛","merupakan larva ngengat sutra","menghasilkan benang sutra saat membuat kepompong"],
+    ["Kecoa","🪳","memiliki tubuh pipih dan antena panjang","termasuk serangga yang sangat adaptif"],
+    ["Cocopet","🪲","memiliki capit di bagian belakang tubuh","termasuk serangga dengan metamorfosis tidak sempurna"],
+    ["Kumbang Penggerek","🪲","banyak jenisnya memiliki moncong memanjang","termasuk kelompok kumbang"],
+    ["Kumbang Permata","🪲","banyak spesies memiliki warna tubuh berkilau","termasuk famili Buprestidae"],
+    ["Kumbang Goliath","🪲","berukuran besar dibanding banyak kumbang lain","termasuk kelompok kumbang scarab"]
+  ],
+
+  ancient: [
+    ["Tyrannosaurus rex","🦖","merupakan dinosaurus pemakan daging dengan rahang kuat","hidup pada akhir periode Kapur"],
+    ["Triceratops","🦕","memiliki tiga tanduk dan lempeng tulang di belakang kepala","merupakan dinosaurus pemakan tumbuhan"],
+    ["Velociraptor","🦖","merupakan dinosaurus kecil yang dikenal memiliki cakar besar di kaki","hidup pada periode Kapur"],
+    ["Stegosaurus","🦕","memiliki lempeng tulang di sepanjang punggung","memiliki duri di ujung ekornya"],
+    ["Brachiosaurus","🦕","memiliki leher sangat panjang dan kaki depan lebih tinggi","merupakan dinosaurus pemakan tumbuhan"],
+    ["Diplodocus","🦕","memiliki leher dan ekor yang sangat panjang","merupakan dinosaurus sauropoda"],
+    ["Ankylosaurus","🦕","memiliki tubuh berlapis pelindung tulang","memiliki ekor berbentuk gada"],
+    ["Spinosaurus","🦖","memiliki layar besar di punggungnya","merupakan dinosaurus pemakan daging yang hidup dekat perairan"],
+    ["Allosaurus","🦖","merupakan dinosaurus pemakan daging dengan tengkorak besar","hidup pada periode Jura"],
+    ["Parasaurolophus","🦕","memiliki jambul panjang di belakang kepala","merupakan dinosaurus pemakan tumbuhan"],
+    ["Iguanodon","🦕","memiliki ibu jari berbentuk duri","merupakan dinosaurus pemakan tumbuhan"],
+    ["Pachycephalosaurus","🦕","memiliki tengkorak dengan bagian atas sangat tebal","merupakan dinosaurus pemakan tumbuhan atau omnivor"],
+    ["Carnotaurus","🦖","memiliki dua tanduk di atas mata","merupakan dinosaurus pemakan daging"],
+    ["Archaeopteryx","🪶","memiliki ciri reptil dan burung","merupakan fosil penting dalam sejarah evolusi burung"],
+    ["Mosasaurus","🦎","merupakan reptil laut raksasa","hidup di lautan pada periode Kapur"],
+    ["Plesiosaurus","🦕","memiliki leher panjang dan sirip untuk berenang","merupakan reptil laut purba"],
+    ["Ichthyosaurus","🐟","memiliki bentuk tubuh mirip ikan atau lumba-lumba","merupakan reptil laut purba"],
+    ["Megalodon","🦈","merupakan hiu raksasa yang telah punah","dikenal memiliki gigi sangat besar"],
+    ["Mammoth","🦣","memiliki tubuh berbulu dan gading panjang","hidup pada zaman es"],
+    ["Smilodon","🐯","memiliki gigi taring atas yang sangat panjang","sering disebut kucing bertaring pedang"],
+    ["Dodo","🦤","merupakan burung yang tidak dapat terbang","telah punah setelah hidup di Mauritius"],
+    ["Dunkleosteus","🐟","merupakan ikan lapis baja dengan rahang kuat","hidup pada zaman Devon"],
+    ["Trilobita","🪲","memiliki tubuh beruas dan bercangkang keras","hidup di laut pada zaman Paleozoikum"],
+    ["Anomalocaris","🦐","merupakan predator laut purba dengan tubuh bersegmen","hidup pada periode Kambrium"],
+    ["Dimetrodon","🦎","memiliki layar besar di punggungnya","bukan dinosaurus, melainkan kerabat jauh mamalia"]
+  ]
+
+};
+
+function shuffleArray(array) {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function buildQuestions(pool) {
+  const questions = [];
+
+  pool.forEach((item, index) => {
+    const [name, animal, clue, fact] = item;
+    const otherItems = pool.filter((_, i) => i !== index);
+
+    // Soal singkat: pilihan berupa nama hewan.
+    const animalChoices = shuffleArray([
+      name,
+      ...shuffleArray(otherItems.map(([otherName]) => otherName)).slice(0, 3)
+    ]);
+
+    const descriptionTemplates = [
+      `Hewan apa yang ${clue}?`,
+      `Siapa yang ${clue}?`,
+      `Hewan mana yang ${fact}?`,
+      `Hewan apa ini: ${clue}?`
+    ];
+
+    questions.push({
+      q: descriptionTemplates[index % descriptionTemplates.length],
+      options: animalChoices,
+      answer: animalChoices.indexOf(name),
+      animal,
+      name
+    });
+
+    // Soal fakta: pilihan berupa fakta singkat.
+    const factPool = otherItems.flatMap(([otherName, , otherClue, otherFact]) => [
+      otherClue,
+      otherFact
+    ]);
+    const correctFact = index % 2 === 0 ? clue : fact;
+    const distractors = shuffleArray(
+      factPool.filter(statement => statement !== clue && statement !== fact)
+    ).slice(0, 3);
+    const factOptions = shuffleArray([correctFact, ...distractors]);
+
+    const factTemplates = [
+      `Ciri ${name} apa?`,
+      `Fakta ${name} yang benar?`,
+      `${name} punya ciri apa?`,
+      `Apa ciri ${name}?`,
+      `Yang benar tentang ${name}?`,
+      `${name} dikenal karena apa?`
+    ];
+
+    questions.push({
+      q: factTemplates[index % factTemplates.length],
+      options: factOptions,
+      answer: factOptions.indexOf(correctFact),
+      animal,
+      name
+    });
+  });
+
+  return questions;
+}
+
+const categoryData = {
+  general: buildQuestions(categoryPools.general.slice(0, 25)),
+  sea: buildQuestions(categoryPools.sea),
+  insects: buildQuestions(categoryPools.insects),
+  ancient: buildQuestions(categoryPools.ancient)
+};
+
+const gameData = {};
+let currentCategory = "general";
+
+function prepareCategory(category) {
+  let questions = [...categoryData[category]];
+
+  // Hanya KENALI HEWAN yang benar-benar diacak setiap kali mulai.
+  // Kategori lain tetap khusus sesuai tema.
+  if (category === "general") {
+    questions = shuffleArray(questions);
+  }
+
+  for (let level = 1; level <= 10; level++) {
+    gameData[level] = questions.slice((level - 1) * 5, level * 5);
+  }
+}
+
+/* =====================================================
+   SCREEN NAVIGATION
+===================================================== */
+
+function hideAll() {
+
+  document.getElementById("home").style.display = "none";
+  document.getElementById("levelScreen").style.display = "none";
+  document.getElementById("game").style.display = "none";
+  document.getElementById("complete").style.display = "none";
+
+}
+
+
+function goHome() {
+
+  hideAll();
+
+  document.getElementById("home").style.display = "block";
+
+}
+
+
+function openLevels(category = "general") {
+
+  currentCategory = category;
+  prepareCategory(currentCategory);
+
+  hideAll();
+
+  document.getElementById("levelScreen").style.display = "block";
+
+}
+
+
+function goLevels() {
+
+  closeAllModals();
+
+  prepareCategory(currentCategory);
+
+  hideAll();
+
+  document.getElementById("levelScreen").style.display = "block";
+
+}
+
+
+/* =====================================================
+   START GAME
+===================================================== */
+
+function startGame(level) {
+
+  // Jika masuk dari tombol level tanpa kategori, tetap gunakan kategori terakhir.
+  if (!categoryData[currentCategory]) {
+    currentCategory = "general";
+  }
+
+  // Pastikan data 10 level sudah dibuat untuk kategori yang dipilih.
+  if (!gameData[level] || !gameData[level].length) {
+    prepareCategory(currentCategory);
+  }
+
+  currentLevel = level;
+  currentQuestion = 0;
+  score = 0;
+  correctAnswers = 0;
+
+  hideAll();
+
+  document.getElementById("game").style.display = "block";
+
+  loadQuestion();
+
+}
+
+
+/* =====================================================
+   LOAD QUESTION
+===================================================== */
+
+function loadQuestion() {
+
+  const data = gameData[currentLevel][currentQuestion];
+
+  const categoryNames = {
+    general: "KENALI HEWAN",
+    sea: "HEWAN LAUT",
+    insects: "SERANGGA UNIK",
+    ancient: "HEWAN PURBA"
+  };
+
+  document.getElementById("levelLabel").textContent =
+    categoryNames[currentCategory] + " • LEVEL " + currentLevel;
+
+  document.getElementById("progress").textContent =
+    (currentQuestion + 1) + " / 5";
+
+  document.getElementById("question").textContent =
+    data.q;
+
+  document.getElementById("score").textContent =
+    score;
+
+  document.getElementById("animalDisplay").textContent =
+    data.animal;
+
+  const panel =
+    document.getElementById("animalPanel");
+
+  const colors = ["blue", "pink", "yellow", "green"];
+
+  panel.classList.remove(
+    "blue",
+    "pink",
+    "yellow",
+    "green"
+  );
+
+  panel.classList.add(
+    colors[currentQuestion % colors.length]
+  );
+
+  const options =
+    document.getElementById("options");
+
+  options.innerHTML = "";
+
+  const letters = ["A", "B", "C", "D"];
+
+  data.options.forEach((option, index) => {
+
+    const button =
+      document.createElement("button");
+
+    button.className = "option";
+
+    button.innerHTML =
+      `<span class="option-letter">
+        ${letters[index]}
+      </span>
+      ${option}`;
+
+    button.onclick = () =>
+      checkAnswer(index);
+
+    options.appendChild(button);
+
+  });
+
+}
+
+
+/* =====================================================
+   CHECK ANSWER
+===================================================== */
+
+function checkAnswer(selected) {
+
+  const data =
+    gameData[currentLevel][currentQuestion];
+
+  if (selected === data.answer) {
+
+    score += 10;
+    correctAnswers++;
+
+    document.getElementById("correctModal")
+      .style.display = "flex";
+
+  } else {
+
+    document.getElementById("wrongModal")
+      .style.display = "flex";
+
+  }
+
+}
+
+
+/* =====================================================
+   CONTINUE AFTER CORRECT
+===================================================== */
+
+function continueQuestion() {
+
+  document.getElementById("correctModal")
+    .style.display = "none";
+
+  currentQuestion++;
+
+  if (currentQuestion >= 5) {
+
+    finishLevel();
+
+  } else {
+
+    loadQuestion();
+
+  }
+
+}
+
+
+/* =====================================================
+   WRONG ANSWER
+===================================================== */
+
+function closeWrong() {
+
+  document.getElementById("wrongModal")
+    .style.display = "none";
+
+}
+
+
+/* =====================================================
+   HINT
+===================================================== */
+
+function showHint() {
+
+  const data =
+    gameData[currentLevel][currentQuestion];
+
+  document.getElementById("hintText")
+    .textContent = data.hint;
+
+  document.getElementById("hintModal")
+    .style.display = "flex";
+
+}
+
+
+function closeHint() {
+
+  document.getElementById("hintModal")
+    .style.display = "none";
+
+}
+
+
+/* =====================================================
+   FINISH LEVEL
+===================================================== */
+
+function finishLevel() {
+
+  document.getElementById("finalScore")
+    .textContent = score;
+
+  document.getElementById("finalCorrect")
+    .textContent = correctAnswers + "/5";
+
+  const animal =
+    gameData[currentLevel][4].animal;
+
+  document.getElementById("completeAnimal")
+    .textContent = animal;
+
+  const title = document.getElementById("completeTitle");
+  const message = document.getElementById("completeMessage");
+  const nextButton = document.getElementById("nextLevelButton");
+
+  if (currentLevel === 10) {
+    title.innerHTML = "SELAMAT!<br>🏆 MASTER HEWAN!";
+    message.textContent =
+      "Kamu telah menyelesaikan Level 10. Selamat, kamu telah menjadi Master Hewan! 🎉🐾";
+    nextButton.style.display = "none";
+  } else {
+    title.innerHTML = "Luar<br>Biasa! 🎉";
+    message.textContent =
+      "Kamu berhasil menyelesaikan level ini! Terus belajar dan kenali lebih banyak hewan.";
+    nextButton.style.display = "block";
+  }
+
+  closeAllModals();
+  hideAll();
+
+  document.getElementById("complete")
+    .style.display = "block";
+}
+
+
+/* =====================================================
+   REPLAY
+===================================================== */
+
+function replayLevel() {
+
+  startGame(currentLevel);
+
+}
+
+
+/* =====================================================
+   NEXT LEVEL
+===================================================== */
+
+function nextLevel() {
+
+  if (currentLevel < 10) {
+
+    startGame(currentLevel + 1);
+
+  } else {
+
+    goHome();
+
+  }
+
+}
+
+
+/* =====================================================
+   CLOSE MODALS
+===================================================== */
+
+function closeAllModals() {
+
+  document.getElementById("correctModal")
+    .style.display = "none";
+
+  document.getElementById("wrongModal")
+    .style.display = "none";
+
+  document.getElementById("hintModal")
+    .style.display = "none";
+
+}
+
+
+/* =====================================================
+   KEYBOARD SUPPORT
+===================================================== */
+
+document.addEventListener("keydown", function(event) {
+
+  if (event.key === "Escape") {
+
+    closeAllModals();
+
+  }
+
+});
+
+
+</script>
+
+</body>
+</html>

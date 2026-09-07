@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cocokkan Bayangan Angka</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap');
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background:#B4C8FF;
+    font-family:'Baloo 2', cursive;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.game{
+    width:95%;
+    max-width:500px;
+    background:white;
+    border-radius:35px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+h1{
+    color:#F9692A;
+    font-size:35px;
+    margin:5px;
+}
+
+.info{
+    display:flex;
+    justify-content:space-between;
+    font-size:22px;
+    color:#555;
+}
+
+.shadow-box{
+    margin:20px auto;
+    width:200px;
+    height:200px;
+    border-radius:30px;
+    background:#222;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.shadow-number{
+    font-size:130px;
+    color:#000;
+    text-shadow:0 0 1px #fff;
+}
+
+.options{
+    display:flex;
+    gap:15px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.number{
+    width:110px;
+    height:110px;
+    border-radius:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:70px;
+    color:white;
+    cursor:pointer;
+    transition:.2s;
+    box-shadow:0 8px 15px rgba(0,0,0,.15);
+}
+
+.number:nth-child(1){
+    background:#C6E201;
+}
+.number:nth-child(2){
+    background:#F9692A;
+}
+.number:nth-child(3){
+    background:#ED42DE;
+}
+
+
+.number:hover{
+    transform:scale(1.08);
+}
+
+
+.pop{
+    animation:pop .5s;
+}
+
+@keyframes pop{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.35)}
+    100%{transform:scale(1)}
+}
+
+
+.shake{
+    animation:shake .4s;
+}
+
+@keyframes shake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-12px)}
+    50%{transform:translateX(12px)}
+    75%{transform:translateX(-12px)}
+}
+
+
+button{
+    margin-top:25px;
+    background:#F9692A;
+    border:none;
+    color:white;
+    padding:15px 40px;
+    border-radius:25px;
+    font-size:25px;
+    font-family:inherit;
+    cursor:pointer;
+}
+
+.message{
+    height:35px;
+    font-size:25px;
+    color:#ED42DE;
+}
+
+.hidden{
+    display:none;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="game">
+
+<h1>🔢 Cocokkan Bayangan Angka</h1>
+
+<div class="info">
+<div>⭐ Skor: <span id="score">0</span></div>
+<div>Level: <span id="level">1</span></div>
+</div>
+
+
+<div id="start">
+<p style="font-size:22px">
+Cari angka warna yang sama dengan bayangan hitam!
+</p>
+
+<button onclick="startGame()">Mulai</button>
+
+</div>
+
+
+<div id="play" class="hidden">
+
+<div class="shadow-box">
+<div class="shadow-number" id="shadow">
+1
+</div>
+</div>
+
+
+<div class="message" id="message"></div>
+
+
+<div class="options" id="options"></div>
+
+
+</div>
+
+</div>
+
+
+
+<script>
+
+let answer;
+let score=0;
+let level=1;
+
+
+const colors=[
+"#C6E201",
+"#F9692A",
+"#ED42DE"
+];
+
+
+function startGame(){
+
+document.getElementById("start").style.display="none";
+document.getElementById("play").classList.remove("hidden");
+
+newQuestion();
+
+}
+
+
+
+function newQuestion(){
+
+document.getElementById("message").innerHTML="";
+
+answer=Math.floor(Math.random()*10)+1;
+
+document.getElementById("shadow").innerHTML=answer;
+
+
+let choices=[answer];
+
+
+while(choices.length<3){
+
+let n=Math.floor(Math.random()*10)+1;
+
+if(!choices.includes(n)){
+choices.push(n);
+}
+
+}
+
+
+choices.sort(()=>Math.random()-0.5);
+
+
+let box=document.getElementById("options");
+
+box.innerHTML="";
+
+
+choices.forEach(num=>{
+
+let btn=document.createElement("div");
+
+btn.className="number";
+
+btn.style.background=
+colors[Math.floor(Math.random()*colors.length)];
+
+
+btn.innerHTML=num;
+
+
+btn.onclick=function(){
+
+checkAnswer(btn,num);
+
+};
+
+
+box.appendChild(btn);
+
+});
+
+
+}
+
+
+
+function checkAnswer(btn,num){
+
+
+if(num===answer){
+
+btn.classList.add("pop");
+
+
+score+=10;
+
+document.getElementById("score").innerHTML=score;
+
+
+document.getElementById("message").innerHTML=
+"🎉 Hebat!";
+
+
+setTimeout(()=>{
+
+level++;
+
+document.getElementById("level").innerHTML=level;
+
+newQuestion();
+
+
+},800);
+
+
+}
+
+else{
+
+
+btn.classList.add("shake");
+
+
+document.getElementById("message").innerHTML=
+"Coba lagi 😊";
+
+
+setTimeout(()=>{
+
+btn.classList.remove("shake");
+
+},500);
+
+
+}
+
+
+
+}
+
+
+</script>
+
+
+</body>
+</html>

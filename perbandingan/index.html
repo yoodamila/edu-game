@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bandingkan Banyak Sedikit</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:"Comic Sans MS", Arial, sans-serif;
+    background:linear-gradient(135deg,#FFF4B8,#B9DDFF);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+
+.game{
+    width:95%;
+    max-width:800px;
+    background:white;
+    border-radius:35px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+
+h1{
+    color:#F5B700;
+    font-size:42px;
+    margin:10px;
+}
+
+
+.level{
+    font-size:26px;
+    color:#4B7BEC;
+}
+
+
+.info{
+    display:flex;
+    justify-content:space-around;
+    font-size:22px;
+    margin:15px;
+}
+
+
+.question{
+    font-size:28px;
+    margin:20px;
+    color:#555;
+}
+
+
+.container{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    flex-wrap:wrap;
+}
+
+
+.box{
+    width:300px;
+    min-height:240px;
+    border-radius:35px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    padding:20px;
+    cursor:pointer;
+    transition:.4s;
+}
+
+
+.yellow{
+    background:#FFF1A8;
+    border:8px solid #FFD84D;
+}
+
+
+.blue{
+    background:#B9DDFF;
+    border:8px solid #6EB5FF;
+}
+
+
+.star{
+    font-size:45px;
+    margin:5px;
+}
+
+
+.box:hover{
+    transform:scale(1.05);
+}
+
+
+.correct{
+    animation:grow .8s;
+}
+
+
+.wrong{
+    animation:shake .4s;
+}
+
+
+
+@keyframes grow{
+
+50%{
+    transform:scale(1.25);
+}
+
+}
+
+
+@keyframes shake{
+
+25%{
+transform:translateX(-15px);
+}
+
+50%{
+transform:translateX(15px);
+}
+
+75%{
+transform:translateX(-10px);
+}
+
+}
+
+
+.result{
+    font-size:30px;
+    margin:20px;
+    min-height:40px;
+}
+
+
+button{
+    background:#4B7BEC;
+    color:white;
+    border:none;
+    padding:15px 40px;
+    border-radius:25px;
+    font-size:22px;
+    cursor:pointer;
+}
+
+
+button:hover{
+    transform:scale(1.05);
+}
+
+
+
+.finish{
+    display:none;
+}
+
+
+.finish h2{
+    font-size:40px;
+    color:#F5B700;
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="game">
+
+
+<div id="play">
+
+
+<h1>⭐ Banyak atau Sedikit? ⭐</h1>
+
+
+<div class="info">
+
+<div>
+Level:
+<span id="level">1</span>/9
+</div>
+
+
+<div>
+Skor:
+<span id="score">0</span>
+</div>
+
+</div>
+
+
+
+<div class="question">
+Pilih kotak dengan bintang lebih banyak!
+</div>
+
+
+
+<div class="container">
+
+<div id="left" class="box yellow" onclick="answer(0)">
+</div>
+
+
+<div id="right" class="box blue" onclick="answer(1)">
+</div>
+
+
+</div>
+
+
+
+<div class="result" id="result"></div>
+
+
+
+<button onclick="nextLevel()">
+Lanjut
+</button>
+
+
+
+</div>
+
+
+
+<div class="finish" id="finish">
+
+<h2>🎉 Hebat Sekali! 🎉</h2>
+
+<p style="font-size:28px">
+Kamu sudah menyelesaikan semua level!
+</p>
+
+<p style="font-size:30px">
+Skor Akhir:
+<span id="finalScore"></span>
+</p>
+
+
+<button onclick="restart()">
+Main Lagi
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+<script>
+
+
+let level=1;
+let score=0;
+
+let leftValue;
+let rightValue;
+
+let answered=false;
+
+
+
+function difficulty(){
+
+if(level<=3){
+return 5;
+}
+
+else if(level<=6){
+return 10;
+}
+
+else{
+return 15;
+}
+
+}
+
+
+
+
+function makeStars(num){
+
+let result="";
+
+for(let i=0;i<num;i++){
+
+result+="<div class='star'>⭐</div>";
+
+}
+
+return result;
+
+}
+
+
+
+
+
+function startLevel(){
+
+answered=false;
+
+
+let max=difficulty();
+
+
+leftValue=Math.floor(Math.random()*max)+1;
+rightValue=Math.floor(Math.random()*max)+1;
+
+
+while(leftValue==rightValue){
+
+rightValue=Math.floor(Math.random()*max)+1;
+
+}
+
+
+
+document.getElementById("left").innerHTML=
+makeStars(leftValue);
+
+
+document.getElementById("right").innerHTML=
+makeStars(rightValue);
+
+
+
+document.getElementById("level").innerHTML=level;
+
+
+document.getElementById("result").innerHTML="";
+
+
+
+}
+
+
+
+
+
+function answer(choice){
+
+
+if(answered){
+return;
+}
+
+
+answered=true;
+
+
+let correct;
+
+
+if(leftValue>rightValue){
+
+correct=0;
+
+}else{
+
+correct=1;
+
+}
+
+
+
+let selected=
+choice==0?
+document.getElementById("left"):
+document.getElementById("right");
+
+
+
+
+if(choice==correct){
+
+
+selected.classList.add("correct");
+
+
+document.getElementById("result").innerHTML=
+"🎉 Benar! Pintar!";
+
+
+score++;
+
+document.getElementById("score").innerHTML=score;
+
+
+}
+
+else{
+
+
+selected.classList.add("wrong");
+
+
+document.getElementById("result").innerHTML=
+"😊 Coba lagi!";
+
+
+answered=false;
+
+
+setTimeout(()=>{
+
+selected.classList.remove("wrong");
+
+},500);
+
+
+}
+
+
+
+}
+
+
+
+
+
+function nextLevel(){
+
+
+if(!answered){
+
+return;
+
+}
+
+
+
+if(level<9){
+
+level++;
+
+startLevel();
+
+}
+
+else{
+
+
+document.getElementById("play").style.display="none";
+
+document.getElementById("finish").style.display="block";
+
+document.getElementById("finalScore").innerHTML=score+"/9";
+
+
+}
+
+
+
+}
+
+
+
+
+
+function restart(){
+
+level=1;
+score=0;
+
+
+document.getElementById("score").innerHTML=0;
+
+
+document.getElementById("play").style.display="block";
+
+document.getElementById("finish").style.display="none";
+
+
+startLevel();
+
+}
+
+
+
+startLevel();
+
+
+</script>
+
+
+</body>
+</html>

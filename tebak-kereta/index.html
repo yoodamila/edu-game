@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#8f78ed">
+  <title>Pola Warna Gerbong Kereta</title>
+  <style>
+    :root { --bg:#8f78ed; --ink:#000; --cream:#fff9e8; }
+    * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    body {
+      margin:0; min-height:100svh; overflow-x:hidden; color:var(--ink);
+      font-family:"Arial Rounded MT Bold","Trebuchet MS",Arial,sans-serif;
+      background:#c7dcfc;
+      display:grid; place-items:center; padding:18px;
+    }
+    .cloud {
+      position:fixed; width:150px; height:48px; border-radius:50px;
+      pointer-events:none; opacity:.92;
+      animation:cloudFloat 7s ease-in-out infinite alternate;
+    }
+    .cloud::before,.cloud::after {
+      content:""; position:absolute; background:inherit; border-radius:50%;
+    }
+    .cloud::before { width:72px; height:72px; left:24px; bottom:8px; }
+    .cloud::after { width:54px; height:54px; right:20px; bottom:7px; }
+    .cloud.white { background:#fff; }
+    .cloud.blue { background:#7194f8; }
+    .c1 { left:3%; top:9%; transform:scale(.85); }
+    .c2 { right:4%; top:14%; transform:scale(1.05); }
+    .c3 { left:8%; bottom:13%; transform:scale(1.1); }
+    .c4 { right:7%; bottom:9%; transform:scale(.8); }
+    .c5 { left:37%; top:3%; transform:scale(.68); }
+    .c6 { right:31%; bottom:2%; transform:scale(.62); }
+    .c2,.c5 { animation-duration:9s; animation-delay:-3s; }
+    .c3,.c6 { animation-duration:11s; animation-delay:-6s; }
+    .c4 { animation-duration:8s; animation-delay:-2s; }
+    @keyframes cloudFloat {
+      0% { translate:-18px 3px; }
+      50% { translate:5px -9px; }
+      100% { translate:24px 4px; }
+    }
+    .game { position:relative; z-index:1; width:min(920px,100%); text-align:center; }
+    h1 { margin:0; font-size:clamp(28px,5vw,48px); line-height:1.05; }
+    .subtitle { margin:8px 0 14px; font-size:clamp(17px,2.5vw,23px); font-weight:800; }
+    .stars { display:flex; justify-content:center; gap:8px; margin:8px 0 13px; font-size:30px; min-height:38px; }
+    .star { filter:grayscale(1); opacity:.4; transition:.35s; }
+    .star.on { filter:none; opacity:1; transform:scale(1.12); }
+    .scene { background:rgba(255,249,232,.76); border:4px solid #000; border-radius:28px; padding:22px 14px 15px; box-shadow:0 9px 0 rgba(0,0,0,.2); overflow:hidden; }
+    .track-wrap { min-height:205px; display:flex; align-items:center; overflow:hidden; }
+    .train { display:flex; align-items:flex-end; justify-content:center; width:max-content; min-width:100%; transition:transform 1.15s cubic-bezier(.45,.05,.35,1); }
+    .train.go { transform:translateX(115%); }
+    .engine,.car { position:relative; border:4px solid #000; box-shadow:0 6px 0 rgba(0,0,0,.18); }
+    .engine { width:120px; height:100px; background:#ffcf45; border-radius:20px 24px 10px 10px; margin-right:14px; flex:0 0 auto; }
+    .engine::before { content:""; position:absolute; width:48px; height:43px; background:#78d9ff; border:4px solid #000; border-radius:9px; left:14px; top:13px; }
+    .engine::after { content:""; position:absolute; width:24px; height:43px; background:#ea4c15; border:4px solid #000; left:78px; top:-33px; border-radius:5px 5px 0 0; }
+    .smoke { position:absolute; font-size:35px; top:-73px; right:2px; animation:puff 1.2s infinite alternate; }
+    @keyframes puff { to{transform:translate(12px,-8px) scale(1.18);opacity:.55} }
+    .car { width:112px; height:82px; margin-right:13px; border-radius:15px 15px 9px 9px; flex:0 0 auto; display:grid; place-items:center; }
+    .car::before { content:""; position:absolute; width:17px; height:9px; background:#222; right:-17px; bottom:16px; }
+    .car.missing { background:#fff; border-style:dashed; font-size:45px; }
+    .wheel { position:absolute; width:29px; height:29px; border-radius:50%; background:#292929; border:4px solid #000; bottom:-22px; }
+    .wheel::after{content:"";position:absolute;inset:7px;border-radius:50%;background:#ddd}
+    .wl{left:13px}.wr{right:13px}
+    .track { height:12px; background:#4e3c38; border-radius:10px; margin:0 -10px; box-shadow:0 16px 0 #4e3c38; }
+    .prompt { font-size:clamp(21px,3.2vw,30px); font-weight:900; margin:24px 0 13px; }
+    .choices { display:flex; justify-content:center; gap:clamp(14px,3vw,30px); flex-wrap:wrap; }
+    .choice { width:clamp(82px,19vw,132px); height:clamp(82px,19vw,132px); border:5px solid #000; border-radius:24px; cursor:pointer; box-shadow:0 8px 0 #000; transition:.12s; position:relative; }
+    .choice:active { transform:translateY(6px); box-shadow:0 2px 0 #000; }
+    .choice:focus-visible { outline:6px solid #fff; outline-offset:4px; }
+    .choice.wrong { animation:shake .35s; }
+    @keyframes shake { 25%{transform:translateX(-8px)}75%{transform:translateX(8px)} }
+    .message { min-height:48px; margin:17px 0 0; font-size:clamp(21px,3vw,29px); font-weight:900; }
+    .restart { display:none; margin:10px auto 0; padding:14px 25px; border:4px solid #000; border-radius:18px; background:#dcf38c; color:#000; font:900 21px inherit; box-shadow:0 6px 0 #000; cursor:pointer; }
+    @media(max-width:650px){.scene{padding-inline:8px}.engine{width:83px;height:78px}.engine::before{width:34px;height:32px;left:8px}.engine::after{left:53px}.car{width:61px;height:66px;margin-right:7px}.wheel{width:24px;height:24px}.smoke{display:none}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <div class="cloud white c1"></div><div class="cloud blue c2"></div>
+  <div class="cloud blue c3"></div><div class="cloud white c4"></div>
+  <div class="cloud blue c5"></div><div class="cloud white c6"></div>
+  <main class="game">
+    <h1>🚂 Pola Warna Kereta</h1>
+    <p class="subtitle">Lihat polanya, lalu pilih warna berikutnya!</p>
+    <div class="stars" id="stars" aria-label="Bintang yang terkumpul"></div>
+    <section class="scene" aria-live="polite">
+      <div class="track-wrap"><div class="train" id="train"></div></div><div class="track"></div>
+    </section>
+    <p class="prompt" id="prompt">Gerbong selanjutnya warna apa?</p>
+    <div class="choices" id="choices"></div>
+    <p class="message" id="message"></p>
+    <button class="restart" id="restart">Main Lagi 🔄</button>
+  </main>
+  <script>
+    const rounds = [
+      {a:'#ef3f3f',an:'Merah',b:'#2f85ee',bn:'Biru'},
+      {a:'#ffd238',an:'Kuning',b:'#63c963',bn:'Hijau'},
+      {a:'#f58bc8',an:'Merah muda',b:'#9b6fe8',bn:'Ungu'},
+      {a:'#2f85ee',an:'Biru',b:'#ffd238',bn:'Kuning'},
+      {a:'#63c963',an:'Hijau',b:'#ef3f3f',bn:'Merah'}
+    ];
+    const palette = [
+      ['#ef3f3f','Merah'],['#2f85ee','Biru'],['#ffd238','Kuning'],
+      ['#63c963','Hijau'],['#f58bc8','Merah muda'],['#9b6fe8','Ungu']
+    ];
+    let level=0, locked=false;
+    const train=document.querySelector('#train'), choices=document.querySelector('#choices');
+    const message=document.querySelector('#message'), stars=document.querySelector('#stars');
+    const prompt=document.querySelector('#prompt'), restart=document.querySelector('#restart');
+    function wheels(){return '<i class="wheel wl"></i><i class="wheel wr"></i>'}
+    function renderStars(){stars.innerHTML=rounds.map((_,i)=>`<span class="star ${i<level?'on':''}">⭐</span>`).join('')}
+    function render(){
+      locked=false; message.textContent=''; prompt.textContent='Gerbong selanjutnya warna apa?';
+      train.className='train'; renderStars(); const r=rounds[level];
+      train.innerHTML=`<div class="engine"><span class="smoke">☁️</span>${wheels()}</div>`+
+        [r.a,r.b,r.a,r.b].map(c=>`<div class="car" style="background:${c}">${wheels()}</div>`).join('')+
+        `<div class="car missing"><span class="mark">?</span>${wheels()}</div>`;
+      let opts=[[r.a,r.an],[r.b,r.bn]];
+      const extras=palette.filter(x=>x[0]!==r.a&&x[0]!==r.b);
+      opts.push(extras[Math.floor(Math.random()*extras.length)]);
+      opts.sort(()=>Math.random()-.5);
+      choices.innerHTML=opts.map(([c,n])=>`<button class="choice" style="background:${c}" data-color="${c}" aria-label="${n}" title="${n}"></button>`).join('');
+    }
+    function beep(ok){
+      try{const C=window.AudioContext||window.webkitAudioContext,ctx=new C(),o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=ok?660:210;g.gain.setValueAtTime(.1,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.28);o.start();o.stop(ctx.currentTime+.28)}catch(e){}
+    }
+    choices.addEventListener('click',e=>{
+      const btn=e.target.closest('.choice'); if(!btn||locked)return; const r=rounds[level];
+      if(btn.dataset.color===r.a){
+        locked=true; beep(true); train.querySelector('.missing').style.background=r.a; train.querySelector('.missing .mark').textContent='✓';
+        message.textContent='Hebat! Keretanya jalan! 🎉'; prompt.textContent='Jawaban benar!';
+        setTimeout(()=>train.classList.add('go'),450);
+        setTimeout(()=>{level++; if(level<rounds.length)render(); else finish()},1800);
+      }else{
+        beep(false); btn.classList.remove('wrong'); void btn.offsetWidth; btn.classList.add('wrong');
+        message.textContent='Coba warna yang lain, yuk! 😊';
+      }
+    });
+    function finish(){renderStars();train.innerHTML='<div style="font-size:clamp(65px,14vw,120px)">🚂✨🏆</div>';train.className='train';choices.innerHTML='';prompt.textContent='Semua pola selesai!';message.textContent='Kamu hebat! Semua kereta sudah berjalan!';restart.style.display='block'}
+    restart.addEventListener('click',()=>{level=0;restart.style.display='none';render()});
+    render();
+  </script>
+</body>
+</html>
