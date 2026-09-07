@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Urutkan Angka 1-20</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family:'Nunito', 'Arial Rounded MT Bold', sans-serif;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#FFD6E7,#D6F0FF);
+}
+
+.game{
+    width:95%;
+    max-width:520px;
+    background:white;
+    border-radius:32px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+}
+
+h1{
+    margin:5px 0;
+    color:#6b7cff;
+    font-size:32px;
+}
+
+.score{
+    background:#D6F0FF;
+    padding:12px;
+    border-radius:20px;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.instruction{
+    font-size:18px;
+    color:#555;
+    margin-bottom:20px;
+}
+
+.numbers{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:15px;
+    min-height:100px;
+}
+
+.number{
+    width:80px;
+    height:80px;
+    border:none;
+    border-radius:25px;
+    background:#D6F0FF;
+    color:#5271ff;
+    font-size:32px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 6px 12px rgba(0,0,0,.1);
+}
+
+.number:active{
+    transform:scale(.9);
+}
+
+.jump{
+    animation:jump .5s;
+}
+
+@keyframes jump{
+    50%{
+        transform:translateY(-40px) scale(1.15);
+    }
+}
+
+.shake{
+    animation:shake .4s;
+}
+
+@keyframes shake{
+    25%{transform:translateX(-8px);}
+    50%{transform:translateX(8px);}
+    75%{transform:translateX(-8px);}
+}
+
+.rail{
+    margin-top:25px;
+    min-height:90px;
+    border-radius:25px;
+    background:#f8fbff;
+    border:4px dashed #D6F0FF;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+    padding:10px;
+}
+
+.rail span{
+    width:55px;
+    height:55px;
+    background:#D6F0FF;
+    border-radius:18px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+    font-weight:bold;
+}
+
+button.restart{
+    margin-top:20px;
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:20px;
+    background:#FFD6E7;
+    color:#555;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.confetti{
+    position:fixed;
+    width:12px;
+    height:12px;
+    background:#FFD6E7;
+    animation:fall 1.5s linear forwards;
+    z-index:10;
+}
+
+@keyframes fall{
+    from{
+        transform:translateY(0) rotate(0);
+        opacity:1;
+    }
+    to{
+        transform:translateY(600px) rotate(360deg);
+        opacity:0;
+    }
+}
+
+@media(max-width:400px){
+    .number{
+        width:65px;
+        height:65px;
+        font-size:26px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="game">
+
+<h1>🔢 Urutkan Angka</h1>
+
+<div class="score">
+⭐ Skor: <span id="score">0</span>
+</div>
+
+<div class="instruction">
+Tap angka dari yang paling kecil sampai terbesar!
+</div>
+
+
+<div class="numbers" id="numbers"></div>
+
+
+<div class="rail" id="rail">
+Rel angka 🚂
+</div>
+
+
+<button class="restart" onclick="startGame()">
+🔄 Main Lagi
+</button>
+
+</div>
+
+
+
+<script>
+
+let angka=[];
+let pilihan=[];
+let nextIndex=0;
+let score=0;
+
+
+const numbers=document.getElementById("numbers");
+const rail=document.getElementById("rail");
+const scoreText=document.getElementById("score");
+
+
+
+function startGame(){
+
+    angka=[];
+
+    while(angka.length<5){
+
+        let n=Math.floor(Math.random()*20)+1;
+
+        if(!angka.includes(n)){
+            angka.push(n);
+        }
+
+    }
+
+
+    pilihan=[...angka].sort((a,b)=>a-b);
+
+    nextIndex=0;
+
+    numbers.innerHTML="";
+    rail.innerHTML="Rel angka 🚂";
+
+
+    angka.sort(()=>Math.random()-0.5);
+
+
+    angka.forEach(n=>{
+
+        let btn=document.createElement("button");
+
+        btn.className="number";
+        btn.innerText=n;
+
+        btn.onclick=()=>check(btn,n);
+
+        numbers.appendChild(btn);
+
+    });
+
+}
+
+
+
+function check(btn,n){
+
+    if(n===pilihan[nextIndex]){
+
+
+        btn.classList.add("jump");
+
+
+        playPop();
+
+
+        setTimeout(()=>{
+
+            let item=document.createElement("span");
+
+            item.innerText=n;
+
+            rail.appendChild(item);
+
+            btn.remove();
+
+        },300);
+
+
+
+        nextIndex++;
+
+
+        if(nextIndex===5){
+
+            score+=10;
+            scoreText.innerText=score;
+
+            setTimeout(()=>{
+
+                confetti();
+
+                setTimeout(startGame,1200);
+
+            },500);
+
+        }
+
+
+
+    }else{
+
+
+        btn.classList.add("shake");
+
+        setTimeout(()=>{
+
+            btn.classList.remove("shake");
+
+        },400);
+
+
+    }
+
+}
+
+
+
+
+
+function playPop(){
+
+    let audio=new AudioContext();
+
+    let osc=audio.createOscillator();
+
+    let gain=audio.createGain();
+
+
+    osc.connect(gain);
+
+    gain.connect(audio.destination);
+
+
+    osc.frequency.value=600;
+
+    gain.gain.setValueAtTime(.2,audio.currentTime);
+
+    gain.gain.exponentialRampToValueAtTime(
+        .01,
+        audio.currentTime+.15
+    );
+
+
+    osc.start();
+
+    osc.stop(audio.currentTime+.15);
+
+}
+
+
+
+
+
+function confetti(){
+
+    for(let i=0;i<35;i++){
+
+        let c=document.createElement("div");
+
+        c.className="confetti";
+
+        c.style.left=Math.random()*100+"vw";
+
+        c.style.top="-20px";
+
+        c.style.background="#FFD6E7";
+
+        document.body.appendChild(c);
+
+
+        setTimeout(()=>{
+
+            c.remove();
+
+        },1500);
+
+    }
+
+}
+
+
+startGame();
+
+</script>
+
+
+</body>
+</html>
